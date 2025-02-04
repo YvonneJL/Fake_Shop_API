@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "orbitron";
+  src: url("../public/Orbitron-VariableFont_wght.ttf");
+}
