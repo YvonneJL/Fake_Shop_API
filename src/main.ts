@@ -15,6 +15,8 @@ const productCategoryAllButton = document.querySelector("#category-0");
 
 const headlineSectionElement = document.querySelector("#headline-section");
 
+const clearCartButton = document.querySelector("#clear-cart");
+
 
 
 //& Typ für die Daten bestimmen
@@ -65,6 +67,8 @@ let allButtonAddToCart: HTMLButtonElement[] = [];
 //entweder leer (ganz hinten) oder alles was im localStorage ist
 let allCartItems: Product[] = JSON.parse(localStorage.getItem("cart") ?? "[]");
 
+//gloabl, um später bei "clear cart" darauf zuzugreifen
+let itemsInCart: HTMLDivElement;
 
 
 //& im Loop alle Produkte in die DOM schieben
@@ -124,11 +128,11 @@ function putDataIntoDom (products: Product[]) {
             //im localStorage speichern
             localStorage.setItem("cart", JSON.stringify(allCartItems))
 
-            const itemsInCart = document.createElement("div");
+            itemsInCart = document.createElement("div");
             headlineSectionElement.appendChild(itemsInCart);
             //als Zähler wird jetzt die Länge des Array genutzt
             itemsInCart.textContent = allCartItems.length.toString();
-            itemsInCart.className = "w-7 h-7 bg-white rounded-full p-2 absolute right-8 top-36 sm:top-21 flex items-center justify-center text-red-500"
+            itemsInCart.className = "w-7 h-7 bg-white rounded-full p-2 absolute right-13 top-31 sm:top-16 flex items-center justify-center text-red-500"
         })
 
          //hier pushe ich die Button-Elemente in das Array, dass ich vor der Schleife initialisiert habe
@@ -252,8 +256,13 @@ if (productSection && productCategoryAllButton && shopProductData ) {
     });
 };
 
+//clear Cart
+//! empty cart button-->der kreis muss weg!
+if (clearCartButton) {
+    clearCartButton.addEventListener("click", ()=> {
+        localStorage.clear()
+        allCartItems = [];
+        itemsInCart.textContent = allCartItems.length.toString();
+    })
+}
 
-
-//!Responsiv gestalten
-//!Button, um Warenkorb zu leeren (clear localStorage)
-//!Design?
