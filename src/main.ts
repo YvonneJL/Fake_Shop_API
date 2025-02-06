@@ -1,4 +1,3 @@
-//&alle Elemente aus DOM ziehen
 const productSection = document.querySelector("#hero");
 const productInput = document.querySelector<HTMLInputElement>("#search-input");
 const productButtonSearch = document.querySelector("#search-button");
@@ -11,7 +10,6 @@ const headlineSectionElement = document.querySelector("#headline-section");
 const itemsInCart = document.querySelector("#cart-counter");
 const clearCartButton = document.querySelector("#clear-cart");
 
-//& Typ für die Daten bestimmen
 type Product = {
   id: number;
   title: string;
@@ -41,7 +39,6 @@ const shopProductData = await getShopProducts();
 
 //buttons in Array für Eventlistener
 let allButtonAddToCart: HTMLButtonElement[] = [];
-
 // Variable für Cart
 //entweder ?? leer oder alles was im localStorage ist
 let allCartItems: Product[] = JSON.parse(localStorage.getItem("cart") ?? "[]");
@@ -102,6 +99,19 @@ function putDataIntoDom(products: Product[]) {
 if (shopProductData) {
   putDataIntoDom(shopProductData);
 }
+
+//show number of cart items
+function updateCart() {
+  if (itemsInCart) {
+    if (allCartItems.length === 0) {
+      itemsInCart.classList.add("invisible");
+    } else if (allCartItems.length >= 1) {
+      itemsInCart.classList.remove("invisible");
+      itemsInCart.textContent = allCartItems.length.toString();
+    }
+  }
+}
+
 //addToCart eventlistener
 if (shopProductData) {
   //index mitgeben, um Button mit Produkt zu verknüpfen
@@ -127,18 +137,7 @@ if (clearCartButton && itemsInCart) {
   });
 }
 
-function updateCart() {
-  if (itemsInCart) {
-    if (allCartItems.length === 0) {
-      itemsInCart.classList.add("invisible");
-    } else if (allCartItems.length >= 1) {
-      itemsInCart.classList.remove("invisible");
-      itemsInCart.textContent = allCartItems.length.toString();
-    }
-  }
-}
-
-//& Suchfunktion nach Titel
+// Suchfunktion nach Titel
 if (productInput && productButtonSearch && shopProductData && productSection) {
   productButtonSearch.addEventListener("click", () => {
     //trim() entfernt so Leerzeichen am Anfang und am Ende
@@ -157,61 +156,44 @@ if (productInput && productButtonSearch && shopProductData && productSection) {
   });
 }
 
-//& Filterfunktion nach Kategorie
-//electronics
-if (productSection && productCategoryElButton && shopProductData) {
-  productCategoryElButton.addEventListener("click", () => {
-    let electronicItems = shopProductData.filter((product) => {
-      if (product.category.toLowerCase() === "electronics") {
+// Filterfunktion nach Kategorie
+//Filterfunktion
+function filterProducts (shopProductData: Product[], category: string) {
+  if (productSection) {
+    let searchedCategory = shopProductData.filter((product) => {
+      if (product.category.toLowerCase() === category) {
         return product;
       }
     });
-    if (electronicItems) {
+    if (searchedCategory) {
       productSection.innerHTML = "";
-      putDataIntoDom(electronicItems);
+      putDataIntoDom(searchedCategory);
     }
+  }
+}
+
+//electronics
+if (productCategoryElButton && shopProductData) {
+  productCategoryElButton.addEventListener("click", () => {
+    filterProducts(shopProductData, "electronics")
   });
 }
 //jewelery
-if (productSection && productCategoryJeButton && shopProductData) {
+if (productCategoryJeButton && shopProductData) {
   productCategoryJeButton.addEventListener("click", () => {
-    let jeweleryItems = shopProductData.filter((product) => {
-      if (product.category.toLowerCase() === "jewelery") {
-        return product;
-      }
-    });
-    if (jeweleryItems) {
-      productSection.innerHTML = "";
-      putDataIntoDom(jeweleryItems);
-    }
+    filterProducts(shopProductData, "jewelery")
   });
 }
 //men's clothes
-if (productSection && productCategoryMeButton && shopProductData) {
+if (productCategoryMeButton && shopProductData) {
   productCategoryMeButton.addEventListener("click", () => {
-    let mensItems = shopProductData.filter((product) => {
-      if (product.category.toLowerCase() === "men's clothing") {
-        return product;
-      }
-    });
-    if (mensItems) {
-      productSection.innerHTML = "";
-      putDataIntoDom(mensItems);
-    }
+    filterProducts(shopProductData, "men's clothing")
   });
 }
 //women's clothes
-if (productSection && productCategoryWoButton && shopProductData) {
+if (productCategoryWoButton && shopProductData) {
   productCategoryWoButton.addEventListener("click", () => {
-    let womensItems = shopProductData.filter((product) => {
-      if (product.category.toLowerCase() === "women's clothing") {
-        return product;
-      }
-    });
-    if (womensItems) {
-      productSection.innerHTML = "";
-      putDataIntoDom(womensItems);
-    }
+    filterProducts(shopProductData, "women's clothing")
   });
 }
 //wieder alle Produkte
