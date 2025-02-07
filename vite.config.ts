@@ -4,4 +4,5 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
   ],
+  esbuild:{supported:{"top-level-await": true}}
 })
