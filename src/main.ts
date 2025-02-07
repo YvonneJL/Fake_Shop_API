@@ -16,7 +16,6 @@ const clearCartButton = document.querySelector("#clear-cart");
 
 //Daten aus Promise
 const shopProductData = await getShopProducts();
-console.log(shopProductData);
 
 //buttons in Array für Eventlistener
 let allButtonAddToCart: HTMLButtonElement[] = [];
@@ -71,6 +70,17 @@ function putDataIntoDom(products: Product[]) {
       buttonAddToCart.setAttribute("id", products[i].id.toString());
       buttonAddToCart.className = "font-[orbitron] bg-yellow-200 p-2";
       buttonAddToCart.textContent = "Add to cart";
+
+      buttonAddToCart.addEventListener("click", () => {
+        //alle Produkte in einem Array speichern
+        allCartItems.push(products[i]);
+        //Funktion, um Menge im Warenkorb darzustellen
+        updateCart();
+        //im localStorage speichern
+        localStorage.setItem("cart", JSON.stringify(allCartItems));
+      });
+  
+
       //Button-Elemente in Array, das global initialisiert
       allButtonAddToCart.push(buttonAddToCart);
     }
@@ -93,28 +103,12 @@ function updateCart() {
   }
 }
 
-//addToCart eventlistener
-if (shopProductData) {
-  //index mitgeben, um Button mit Produkt zu verknüpfen
-  allButtonAddToCart.forEach((button, index) => {
-    button.addEventListener("click", () => {
-      //alle Produkte in einem Array speichern
-      allCartItems.push(shopProductData[index]);
-      //Funktion, um Menge im Warenkorb darzustellen
-      updateCart();
-      //im localStorage speichern
-      localStorage.setItem("cart", JSON.stringify(allCartItems));
-    });
-  });
-}
-
 //clear Cart EventListener
 if (clearCartButton && itemsInCart) {
   clearCartButton.addEventListener("click", () => {
     localStorage.clear();
     allCartItems = [];
     updateCart();
-    console.log(allCartItems);
   });
 }
 

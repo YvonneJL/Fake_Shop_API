@@ -5,12 +5,7 @@ const productSchema = z.object({
   title: z.string(),
   price: z.number(),
   description: z.string(),
-  category: z.enum([
-    "men's clothing",
-    "women's clothing",
-    "jewelery",
-    "electronics",
-  ]),
+  category: z.string(),
   image: z.string(),
   rating: z.object({
     rate: z.number(),
@@ -29,7 +24,6 @@ export async function getShopProducts() {
   try {
     const productResponse = await fetch("https://fakestoreapi.com/products");
     const productData = await productResponse.json();
-    console.log(productResponse);
 
     const validatedProductData = productResponseSchema.parse(productData);
     return validatedProductData;
