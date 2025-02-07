@@ -1,3 +1,6 @@
+import { Product } from "./api";
+import { getShopProducts } from "./api";
+
 const productSection = document.querySelector("#hero");
 const productInput = document.querySelector<HTMLInputElement>("#search-input");
 const productButtonSearch = document.querySelector("#search-button");
@@ -10,32 +13,10 @@ const headlineSectionElement = document.querySelector("#headline-section");
 const itemsInCart = document.querySelector("#cart-counter");
 const clearCartButton = document.querySelector("#clear-cart");
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-};
 
-//Daten fetchen
-//Promise
-async function getShopProducts() {
-  try {
-    const productResponse = await fetch("https://fakestoreapi.com/products");
-    const productData: Product[] = await productResponse.json();
-    return productData;
-  } catch (error) {
-    console.log(error);
-  }
-}
 //Daten aus Promise
 const shopProductData = await getShopProducts();
+console.log(shopProductData);
 
 //buttons in Array für Eventlistener
 let allButtonAddToCart: HTMLButtonElement[] = [];
