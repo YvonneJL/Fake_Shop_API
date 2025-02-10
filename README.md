@@ -1,4 +1,5 @@
 # Fake API Shop
+[Fake_Shop.webm](https://github.com/user-attachments/assets/5c46aee5-996c-4d9b-92cf-2dc4304a1fa2)
 
 Im Rahmen des sechsmonatigen Web-Development-Kurses habe ich das Projekt "Fake API Shop" während des "Typescript-Moduls" entwickelt. Das Projekt präsentiert die von der [FakeStoreAPI](https://fakestoreapi.com/) bereitgestellten Daten in Form eines fiktiven Online-Shops. Benutzerinnen und Benutzer können die Artikel nach Kategorien filtern und nach Schlagwörtern suchen, die im Titel der Artikel enthalten sind. Darüber hinaus besteht die Möglichkeit, Artikel im Local Storage zu speichern, um einen Warenkorb zu erstellen, dessen Umfang angezeigt wird und der jederzeit geleert werden kann. Die Webseite wurde responsiv gestaltet, um eine optimale Darstellung auf verschiedenen Endgeräten zu gewährleisten.
 
